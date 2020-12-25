@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.phone.dao.AddressMapper">
+    <resultMap id="query" type="com.phone.entity.BuyerAddress">
+        <result column="address_id" property="addressId"/>
+        <result column="buyer_name" property="buyerName"/>
+        <result column="buyer_password" property="buyerPassword"/>
+        <result column="buyer_phone" property="buyerPhone"/>
+        <result column="buyer_address" property="buyerAddress"/>
+        <result column="area_code" property="areaCode"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+    <select id="selectAddressByBuyerName" resultMap="query">
+        select *
+        from b_address
+        where buyer_name = #{buyerName}
+    </select>
+
+    <update id="updateAddressByBuyerName" parameterType="com.phone.entity.BuyerAddress">
+        update b_address
+        set buyer_address = #{buyerAddress}
+        where buyer_name = #{buyerName}
+    </update>
+
+</mapper>
