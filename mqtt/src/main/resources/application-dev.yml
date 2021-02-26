@@ -1,0 +1,16 @@
+spring:
+  mqtt:
+    url: tcp://52.82.69.183:21669
+    username: pinganiot
+    password: 20pziunlgiann19
+    topic: ff7a4ddfb2c54a7b85c58943e17e80e4/7LkeY63752G5c9U05HFL
+    clientId: ff7a4ddfb2c54a7b85c58943e17e80e4
+client:
+  devtemplateid: 7LkeY63752G5c9U05HFL
+  device:
+    id: 7
+thread:
+  collect:
+    freq: 15
+  send:
+    freq: 120

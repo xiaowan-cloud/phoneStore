@@ -1,0 +1,27 @@
+server:
+  port: 6700
+  servlet:
+    context-path: /datajob
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+  tomcat:
+    uri-encoding: UTF-8
+    threads:
+      max: 800
+
+
+spring:
+  profiles:
+    active: qa
+
+mybatis:
+  mapper-locations: classpath*:/mapper/*.xml
+
+logging:
+  level:
+    com.example.demo.mapper: debug       #针对mapper文件配置日志级别,设置为bebug
+  file:
+    path: ../logs/
+#  config: classpath:log4j2.xml

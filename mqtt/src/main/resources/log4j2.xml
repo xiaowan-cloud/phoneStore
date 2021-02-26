@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="600">
+	<Properties>
+		<Property name="APP_NAME">DataJob</Property>
+		<Property name="LOG_HOME">../logs</Property>
+        <Property name="LOG_PATTERN">%d %p %c{1.} [%t] %m%n</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="NEUTRAL" />
+            <PatternLayout pattern="%d{HH:mm:ss} [%t] %-5level %logger{36} - %msg%n %c{1}.%M %m %ex%n"/>
+		</Console>
+
+		<RollingRandomAccessFile name="debug_file"
+								 immediateFlush="true" fileName="${LOG_HOME}/${APP_NAME}-debug.log"
+								 filePattern="${LOG_HOME}/debug/${APP_NAME}.log.%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout>
+				<pattern>${LOG_PATTERN}</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="20 MB" />
+			</Policies>
+			<Filters>
+				<ThresholdFilter level="info" onMatch="DENY" onMismatch="NEUTRAL"/>
+				<ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="info_file"
+			immediateFlush="true" fileName="${LOG_HOME}/${APP_NAME}-info.log"
+			filePattern="${LOG_HOME}/info/${APP_NAME}.log.%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout>
+				<pattern>${LOG_PATTERN}</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+			</Policies>
+			<Filters>
+				<ThresholdFilter level="error" onMatch="DENY" onMismatch="NEUTRAL"/>
+				<ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="error_file"
+			immediateFlush="true" fileName="${LOG_HOME}/${APP_NAME}-error.log"
+			filePattern="${LOG_HOME}/error/${APP_NAME}.log.%d{yyyy-MM-dd}.log.gz">
+			<PatternLayout>
+				<pattern>${LOG_PATTERN}</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1" modulate="true" />
+			</Policies>
+			<Filters>
+				<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY" />
+			</Filters>
+		</RollingRandomAccessFile>
+	</Appenders>
+
+	<Loggers>
+		<asyncRoot level="info">
+			<appender-ref ref="Console" />
+            <appender-ref ref="debug_file" />
+			<appender-ref ref="info_file" />
+			<appender-ref ref="error_file" />
+		</asyncRoot>
+
+	</Loggers>
+
+</Configuration>

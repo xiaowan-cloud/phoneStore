@@ -1,0 +1,10 @@
+client:
+  devtemplateid: 7LkeY63752G5c9U05HFL
+  device:
+    id: 7
+thread:
+  collect:
+    freq: 15
+  send:
+    freq: 120
+
