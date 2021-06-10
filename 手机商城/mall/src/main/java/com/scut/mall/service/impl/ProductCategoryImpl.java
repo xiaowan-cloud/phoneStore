@@ -1,0 +1,66 @@
+package com.scut.mall.service.impl;
+
+import com.scut.mall.dao.ProductCategoryDao;
+import com.scut.mall.entity.ProductCategory;
+import com.scut.mall.service.ProductCategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * @ Author     ：Bin Liu
+ * @ Description：产品种类业务逻辑实现类
+ * @ Modified By：
+ */
+@Service
+public class ProductCategoryImpl implements ProductCategoryService {
+    @Autowired
+    private ProductCategoryDao productCategoryDao;
+
+    @Override
+    public ProductCategory findById(int id) {
+        return productCategoryDao.findProductCategoryById(id);
+    }
+
+    @Override
+    public List<ProductCategory> findAll(int type) {
+        return productCategoryDao.findByType(type);
+    }
+
+    @Override
+    public Page<ProductCategory> findAll(int type,Pageable pageable) {
+        return productCategoryDao.findProductCategoryByType(type,pageable);
+    }
+
+    @Override
+    public List<ProductCategory> findAllExample(Example<ProductCategory> example) {
+        return productCategoryDao.findAll(example);
+    }
+
+    @Override
+    public void update(ProductCategory productCategory) {
+        productCategoryDao.save(productCategory);
+    }
+
+    @Override
+    public int create(ProductCategory productCategory) {
+        ProductCategory productCategory1=productCategoryDao.save(productCategory);
+        return productCategory.getId();
+    }
+
+    @Override
+    public void delById(int id) {
+        productCategoryDao.deleteById( id );
+    }
+
+    @Override
+    public List<ProductCategory> findByParentId(int cid) {
+        return productCategoryDao.findByParentId(cid);
+    }
+
+
+}

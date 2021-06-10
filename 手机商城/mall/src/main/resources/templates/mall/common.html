@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+    <link rel="shortcut icon" th:href="@{/image/favicon.ico}"/>
+</head>
+<body>
+<!--
+    这里包含了每个页面的公共模块
+-->
+<!--头部 导航条模块-->
+<div class="layui-header header layui-bg-green" th:fragment="head">
+    <script>
+        //        <![CDATA[
+        var layer;
+        layui.use(["layer","element"],function () {
+            layer = layui.layer;
+        });
+        //JavaScript代码区域
+        //        ]]>
+    </script>
+    <div class="layui-main layui-bg-green" >
+        <a class="logo" href="/mall/index.html">
+            <img th:src="@{/image/logo.png}"/>
+        </a>
+        <!-- 头部区域（可配合layui已有的水平导航） -->
+        <!--<ul class="layui-nav layui-layout-left">-->
+        <!---->
+        <!--</ul>-->
+        <a class="logo" href="/mall/index.html" style="margin-left: 160px;margin-top: 3px;">
+          <h2 style="font-size: 24px;">手机商城</h2>
+        </a>
+
+
+
+        <ul class="layui-nav layui-layout-right">
+            <!--<li class="layui-nav-item" >-->
+                <!--<div class="layui-input-block" style="float: left; position: relative;">-->
+                    <!--<label class="layui-form-label">商品搜索</label>-->
+                    <!--<input style="width: auto;" type="text" id="select_orderId" name="keyword" lay-verify="required" placeholder="请输入商品名称" autocomplete="off" class="layui-input">-->
+                <!--</div>-->
+                <!--<button class="layui-btn" lay-submit="" id="searchBtn" data-type="getInfo" style="float: left;"><i class="layui-icon layui-icon-search"></i></button>-->
+            <!--</li>-->
+            <!--<li class="layui-nav-item">-->
+            <!--<div class="mallSearch">-->
+                <!--<form action="" class="layui-form" novalidate>-->
+                    <!--<input type="text" name="title" required  lay-verify="required" autocomplete="off" class="layui-input" placeholder="请输入需要的商品">-->
+                    <!--<button class="layui-btn" lay-submit lay-filter="formDemo" style="float: right;position: relative">-->
+                        <!--<i class="layui-icon layui-icon-search"></i>-->
+                    <!--</button>-->
+                    <!--<input type="hidden" name="" value="">-->
+                <!--</form>-->
+            <!--</div>-->
+            <!--</li>-->
+            <li class="layui-nav-item" style="color:#009688;">
+                <a href="javascript:;">分类</a>
+                <dl class="layui-nav-child" id="category">
+
+                </dl>
+                <script>
+                    //                    <![CDATA[
+                    //加载分类
+                    $.get("/mall/admin/classification/list.do?type=1&pageindex=-1", function (data) {
+                        if (data.state == 0) {
+                            var list = $("#category");
+                            $(data.data).each(function (index, item) {
+                                var cat = $("<dd><a href='/mall/product/category.html?cid="+item.id+"'>" + item.cname + "</a></dd>");
+                                list.append(cat);
+                            })
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+                    //                    ]]>
+                </script>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <i class="fa fa-user-circle"></i>&nbsp;
+                    <span th:if="${session.user == null}">请登陆</span>
+                    <span th:if="${session.user != null}" th:text="'欢迎您!&nbsp;' + ${session.user.userName}">请登陆</span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd th:if="${session.user != null}"><a href="#" th:text="'积分：'+${session.user.integration}"><i class="fa fa-money"></i> </a></dd>
+                    <dd th:if="${session.user != null}"><a href="/mall/address/toAddress.html"><i class="fa fa-user-secret"></i> 地址管理</a></dd>
+                    <dd th:if="${session.user != null}"><a href="/mall/user/logout.do"><i class="fa fa-sign-out"></i> 退出登录</a></dd>
+                    <dd th:if="${session.user != null}"><a href="/mall/order/toList.html"><i class="fa fa-list"></i> 我的订单</a></dd>
+                    <dd th:if="${session.user != null}"><a href="/mall/product/toCart.html"><i class="fa fa-shopping-cart"></i> 购物车</a></dd>
+                    <dd th:if="${session.user == null}"><a href="/mall/user/toLogin.html"><i class="fa fa-sign-in"></i> 登录</a></dd>
+                    <dd th:if="${session.user == null}"><a href="/mall/user/toRegister.html"><i class="fa fa-user-plus"></i> 注册</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="/mall/admin/toLogin.html">后台管理</a></li>
+        </ul>
+
+    </div>
+
+</div>
+
+<!--底部模块-->
+<div class="footer footer-index" th:fragment="foot">
+    <hr style="color: #009688;" />
+    <!-- 底部固定区域 -->
+    Copyright © MALL 2021.<br>
+    All Rights Reserved.
+
+</div>
+
+</body>
+</html>
